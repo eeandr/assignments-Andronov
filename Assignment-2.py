@@ -1,4 +1,10 @@
 from __future__ import division, print_function
+import operator
+import collections
+
+
+string = "abcabcabcabcd"
+counts = collections.Counter(string[i:i+2] for i in xrange(len(string)-2))
 
 #Task 2
 def my_min(object):
@@ -6,18 +12,30 @@ def my_min(object):
     print("My_max is " + str((sorted(object))[-1]))
 
 
-object = (1,3,2,6,5,3,0)
 my_min(object)
 
+a = object
 
-def my_min(object): # another version
-    if len(object) == 1 and type(object) is not 'int':  # I do not understand the first condition
+
+def my_min(*args, **kwargs):
+    if not args:
+        raise ValueError("No arguments")
+    if len(args) == 1:
+        elements = args[0]
+        if not isinstance(elements, (tuple, list)):
+            raise ValueError("One argument of wrong type")
+        current_min = elements[0]
+        for num in elements:
+            if not isinstance(num, int):
+                raise ValueError
+            current_min = num if num < current_min else current_min
+
+
+
+# another version
+    if len(obj) == 1 and type(obj) is not 'int':  # I do not understand the first condition
         raise ValueError("the only not integer argument")
-    for i in xrange(1,len(object)):
-        if object[i - 1] < object[i]: #to find my_max change "<" to ">"
-            j = object[i - 1]
-        else:
-            j = object[i]
+
     print("My_min is " + str(j))
 
 
@@ -42,8 +60,8 @@ my_map(myfun,(1,2,3,4))
 #_______________________________________
 
 
-def my_filter(fn,elements):
-    print(map(fn,filter(fn,elements)))
+def my_map(fn, elements):
+    return [fn(element) for element in elements]
 
 
 def myfun(num):
@@ -54,12 +72,11 @@ my_filter(myfun,(1,2,3,0,4,5))
 
 #Task 4 # draft only
 
-import operator
+
 def calculate(numbers,operations):
-    import operator
-    dicOper = {"+":operator.add, "-":operator.sub, "*":operator.mul, "/":operator.div}
+    dic_oper = {"+": operator.add, "-": operator.sub, "*": operator.mul, "/": operator.div}
     for i in xrange(1, len(numbers)):
-        j = dicOper[operators[i-1]](numbers[i-1],numbers[i])
+        j = dic_oper[operators[i-1]](numbers[i-1],numbers[i])
         numbers[i] = j
     print(j)
 
